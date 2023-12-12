@@ -1,0 +1,5 @@
+copilot/*
+docker_test.sh
+README.md
+src/__tests__/*
+.gitignore
