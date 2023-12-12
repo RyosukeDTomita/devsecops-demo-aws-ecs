@@ -1,0 +1,25 @@
+name: run-jest
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  frontend-jest: # job id(Typed by user)
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository to runner
+      - uses: actions/checkout@v3
+
+      - name: Set up node20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: cd /home/runner/work/devsecops-demo-aws-ecs/devsecops-demo-aws-ecs && npm install
+
+      - name: Run npm test
+        run: cd /home/runner/work/devsecops-demo-aws-ecs/devsecops-demo-aws-ecs && npm test -- --watchAll=false

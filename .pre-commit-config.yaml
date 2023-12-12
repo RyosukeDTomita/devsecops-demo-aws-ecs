@@ -1,0 +1,32 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+        exclude: '.*\.md$' # mdでend-of-file-fixerが謎の挙動をするので除外
+    # hadolint
+-   repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+    -   id: hadolint
+         #args: [--trusted-registry, grc.io, ./react-app/Dockerfile]
+        args: [./Dockerfile]
+        files: Dockerfile$
+    # ESLint
+-   repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.54.0 # 一番新しいやつにした
+    hooks:
+    -   id: eslint
+        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
+        types: [file]
+    # prettier
+-   repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.5.1 # rvest.vs-code-prettier-eslintにあわせた
+    hooks:
+    -   id: prettier
+        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
