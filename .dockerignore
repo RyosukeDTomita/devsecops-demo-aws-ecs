@@ -1,5 +1,11 @@
-copilot/*
 docker_test.sh
 README.md
-src/__tests__/*
 .gitignore
+CODEOWNERS
+LICENSE
+.trivyignore
+.pre-commit-config.yaml
+.git/
+.github/
+src/__tests__/*
+copilot/*

@@ -1,0 +1,38 @@
+name: trivy dependency check for package.json
+# https://github.com/aquasecurity/trivy-action#usage
+on:
+  push:
+  schedule:
+    # 日曜日の午前0時に実行
+    - cron:  '0 0 * * 0'
+
+jobs:
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: clone application source code
+        uses: actions/checkout@v3
+
+      - name: use trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          #exit-code: 1
+          scanners: 'vuln'
+          vuln-type: 'library'
+          hide-progress: true
+          format: 'sarif'
+          output: 'sca-report.sarif'
+          severity: 'CRITICAL,HIGH'
+      - name: save report as pipeline artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sca-report.sarif
+          path: sca-report.sarif
+      - name: publish trivy alerts
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'sca-report.sarif'
+          category: trivy
