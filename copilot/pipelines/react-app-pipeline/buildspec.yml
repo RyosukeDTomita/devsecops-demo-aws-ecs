@@ -8,6 +8,10 @@ phases:
       # Download the copilot linux binary.
       - wget -q https://ecs-cli-v2-release.s3.amazonaws.com/copilot-linux-v1.32.0 -O copilot-linux
       - chmod +x ./copilot-linux
+      # Download trivy. https://aquasecurity.github.io/trivy/v0.48/getting-started/installation/
+      - echo "install trivy"
+      - rpm -ivh https://github.com/aquasecurity/trivy/releases/download/v0.48.0/trivy_0.48.0_Linux-64bit.rpm
+
   build:
     commands:
       - echo "Run your tests"
@@ -48,11 +52,11 @@ phases:
         for env in $pl_envs; do
           tag=$(echo ${CODEBUILD_BUILD_ID##*:}-$env | sed 's/:/-/g' | rev | cut -c 1-128 | rev)
           for svc in $svcs; do
-          ./copilot-linux svc package -n $svc -e $env --output-dir './infrastructure' --tag $tag --upload-assets;
-          if [ $? -ne 0 ]; then
-            echo "Cloudformation stack and config files were not generated. Please check build logs to see if there was a manifest validation error." 1>&2;
-            exit 1;
-          fi
+            ./copilot-linux svc package -n $svc -e $env --output-dir './infrastructure' --tag $tag --upload-assets;
+            if [ $? -ne 0 ]; then
+              echo "Cloudformation stack and config files were not generated. Please check build logs to see if there was a manifest validation error." 1>&2;
+              exit 1;
+            fi
           done;
           for job in $jobs; do
           ./copilot-linux job package -n $job -e $env --output-dir './infrastructure' --tag $tag --upload-assets;
@@ -63,6 +67,10 @@ phases:
           done;
         done;
       - ls -lah ./infrastructure
+      - cat ./infrastructure/dev-svc-dev-env.params.json
+      # Run trivy scan on the docker images.
+      - trivy image --vuln-type os --no-progress --format table -o container-scanning-report.txt --severity CRITICAL,HIGH $(jq -r '.Parameters[].ContainerImage' ./infrastructure/dev-svc-dev-env.params.json)
+      - cat container-scanning-report.txt
 artifacts:
   files:
     - "infrastructure/*"
