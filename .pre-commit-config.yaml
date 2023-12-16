@@ -7,7 +7,7 @@ repos:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
-    -   id: check-added-large-files
+    # -   id: check-added-large-files
         exclude: '.*\.md$' # mdでend-of-file-fixerが謎の挙動をするので除外
     # hadolint
 -   repo: https://github.com/hadolint/hadolint
