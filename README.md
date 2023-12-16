@@ -13,9 +13,10 @@
 - node:20
 ******
 
+
 # ABOUT
 Sample for DevSecOps environment.
-If you need help or questions, plase contact [twitter](https://twitter.com/sigma5736394841), issues.
+If you need help or questions, please contact [twitter](https://twitter.com/sigma5736394841), issues.
 ## AWS
 - app-infrastructure-roles
 ![app-infrastructure-roles](./doc/fig/cfn/app-infrastructure-roles.png)
@@ -166,10 +167,14 @@ git secrets --register-aws # awsのクレデンシャル検知ルールを登録
 
 
 # HOW TO USE
-[PREPARING](#PREPARING)の設定後にはGitHubにコードをコミットしたり，pushするだけ。
+1. [PREPARING](#PREPARING)の設定を先にやる。
+2. commit時にはpre-commitとgit-secretが作動
+3. push時にはGitHub ActionsによりSAST(semgrep)，UnitTest(jest)，Dependency Check(trivy)が実行される。
+4. masterブランチにマージしたりmasterにpushした時にCodePipelineによってAWSへリポジトリがクローンされ，ビルド(image scanを含む)，developmentへのデプロイが始まる。
+5. developmentで問題がなければCodePipeline上で承認し，productionへデプロイ
 ******
 
 
 # MEMO
+## nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
 - [ECSの仕様で非特権ユーザを使用したコンテナでは80番ポートが使えないっぽい](https://repost.aws/questions/QU1bCV9wT4T5iBrrP1c2ISfg/container-cannot-bind-to-port-80-running-as-non-root-user-on-ecs-fargate) --> つまり，localのdockerで80でサービスが起動できてもECSだと権限エラーになる。このため，コンテナで開放するportは8080としている(ALBに対して8080がマッピングされているためブラウザからは80でアクセスできる)。
-> nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
