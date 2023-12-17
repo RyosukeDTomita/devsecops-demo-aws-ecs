@@ -9,11 +9,13 @@ phases:
       - wget -q https://ecs-cli-v2-release.s3.amazonaws.com/copilot-linux-v1.32.0 -O copilot-linux
       - chmod +x ./copilot-linux
       # Download trivy. https://aquasecurity.github.io/trivy/v0.48/getting-started/installation/
+      - apt-get update
       - apt-get install wget apt-transport-https gnupg lsb-release
       - wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
       - echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
       - apt-get update
       - apt-get install trivy
+      - chmod +x trivy
 
   build:
     commands:
