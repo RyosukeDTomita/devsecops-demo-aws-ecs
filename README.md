@@ -147,11 +147,48 @@ copilot pipeline deploy
 ```
 - ACTION REQUIREDが出るのでURLにアクセスし，pendingになっているpipelineとGitHubを接続する設定を追加する。
 - 一度pipelineをデプロイすると以後，指定したGitHubのブランチにマージされるたびにCode Pipelineを通してデプロイが進むようになる。
+#### CodePipelineにimage scanを追加する
+- [./copilot/pipelines/react-app-pipeline/buildspec.yml](./copilot/pipelines/react-app-pipeline/buildspec.yml)を編集してtrivyによるimage scanを追加する。
+
+```
+install:
+  commands:
+      - echo "install trivy"
+      - rpm -ivh https://github.com/aquasecurity/trivy/releases/download/v0.48.0/trivy_0.48.0_Linux-64bit.rpm
+```
+
+```
+      # Run trivy scan on the docker images.
+      - trivy image --vuln-type os --no-progress --format table -o container-scanning-report.txt --severity CRITICAL,HIGH $(jq -r '.Parameters.ContainerImage' ./infrastructure/dev-svc-dev-env.params.json)
+      - cat container-scanning-report.txt
+```
+
+<details>
+<summary>buildspec.ymlの解説</summary><div>
+- ./infrastructureをビルドによって作成しており，この中にECRのイメージが書いてあるのでこれをjqコマンドで抜き出している。
+- trivyに関する詳細は[./doc/tools_doc/trivy.md]を確認。
+
+```
+cat ./infrastructure/dev-svc-dev-env.params.json
+{
+  "Parameters": {
+    "AddonsTemplateURL": "",
+    "AppName": "react-app",
+    "ContainerImage": "xxxxxx.dkr.ecr.ap-northeast-1.amazonaws.com/react-app/dev-svc:xxxxxx-xxxxx-xxxx-xxxx-xxxxxxxxxxxx-dev-env",
+  }
+}
+jq -r '.Parameters.ContainerImage' ./infrastructure/dev-svc-dev-env.params.json
+xxxxxx.dkr.ecr.ap-northeast-1.amazonaws.com/react-app/dev-svc:xxxxxx-xxxxx-xxxx-xxxx-xxxxxxxxxxxx-dev-env
+```
+
+</div></details>
 ******
 
 
 ## その他の設定
 - ローカルでのセットアップが必用なのはgit-secretsとpre-commitくらい
+- [pre-commitのドキュメント](./doc/tools_doc/pre-commit.md)
+- [git-secretsのドキュメント](./doc/tools_doc/git-secret.md)
 
 ```shell
 cd devsecops-demo-aws-ecs
