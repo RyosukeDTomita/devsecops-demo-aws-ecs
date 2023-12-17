@@ -8,8 +8,13 @@ phases:
       # Download the copilot linux binary.
       - wget -q https://ecs-cli-v2-release.s3.amazonaws.com/copilot-linux-v1.32.0 -O copilot-linux
       - chmod +x ./copilot-linux
-      # Download trivy.
-      - docker pull ghcr.io/aquasecurity/trivy:canary
+      # Download trivy. https://aquasecurity.github.io/trivy/v0.48/getting-started/installation/
+      - apt-get install wget apt-transport-https gnupg lsb-release
+      - wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+      - echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+      - apt-get update
+      - apt-get install trivy
+
   build:
     commands:
       - echo "Run your tests"
@@ -66,7 +71,7 @@ phases:
         done;
       - ls -lah ./infrastructure
       # Run trivy scan on the docker images.
-      - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/aquasecurity/trivy:canary image --vuln-type os --no-progress --format table -o container-scanning-report.txt --severity CRITICAL,HIGH $(jq -r '.services[].image' ./infrastructure/manifest.json)
+      - trivy image --vuln-type os --no-progress --format table -o container-scanning-report.txt --severity CRITICAL,HIGH $(jq -r '.services[].image' ./infrastructure/manifest.json)
       - cat container-scanning-report.txt
 artifacts:
   files:
