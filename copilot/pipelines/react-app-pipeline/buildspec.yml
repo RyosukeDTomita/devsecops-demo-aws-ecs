@@ -67,9 +67,8 @@ phases:
           done;
         done;
       - ls -lah ./infrastructure
-      - cat ./infrastructure/dev-svc-dev-env.params.json
       # Run trivy scan on the docker images.
-      - trivy image --vuln-type os --no-progress --format table -o container-scanning-report.txt --severity CRITICAL,HIGH $(jq -r '.Parameters[].ContainerImage' ./infrastructure/dev-svc-dev-env.params.json)
+      - trivy image --vuln-type os --no-progress --format table -o container-scanning-report.txt --severity CRITICAL,HIGH $(jq -r '.Parameters.ContainerImage' ./infrastructure/dev-svc-dev-env.params.json)
       - cat container-scanning-report.txt
 artifacts:
   files:
