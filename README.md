@@ -8,15 +8,14 @@
 
 
 # ENVIRONMENT
-- AWS
+- AWS: ECS on FargateにCode Pipeline経由でデプロイする。サンプルではdevとprod環境を用意し、dev環境で動作確認後に承認ボタンを押すとprod環境にもデプロイが進む形になっている。
 - Github Actions
-- node:20
+- アプリ: React sample
 ******
 
 
 # ABOUT
 Sample for DevSecOps environment.
-If you need help or questions, please contact [twitter](https://twitter.com/sigma5736394841), issues.
 ## AWS
 - app-infrastructure-roles
 ![app-infrastructure-roles](./doc/fig/cfn/app-infrastructure-roles.png)
