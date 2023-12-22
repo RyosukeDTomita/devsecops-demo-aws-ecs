@@ -149,6 +149,7 @@ copilot pipeline deploy
 - 一度pipelineをデプロイすると以後，指定したGitHubのブランチにマージされるたびにCode Pipelineを通してデプロイが進むようになる。
 #### CodePipelineにimage scanを追加する
 - [./copilot/pipelines/react-app-pipeline/buildspec.yml](./copilot/pipelines/react-app-pipeline/buildspec.yml)を編集してtrivyによるimage scanを追加する。
+> [ECRのイメージスキャン機能](https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/image-scanning.html)はデフォルトであるので併用してもよいかも。
 
 ```
 install:
@@ -182,6 +183,7 @@ xxxxxx.dkr.ecr.ap-northeast-1.amazonaws.com/react-app/dev-svc:xxxxxx-xxxxx-xxxx-
 ```
 
 </div></details>
+
 ******
 
 
