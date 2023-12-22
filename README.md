@@ -214,5 +214,45 @@ git secrets --register-aws # awsのクレデンシャル検知ルールを登録
 
 
 # MEMO
-## nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
+## Code Buildのエラー
+以下コマンドでログが見れる。
+
+```shell
+copilot svc logs --previous
+```
+
+### nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
 - [ECSの仕様で非特権ユーザを使用したコンテナでは80番ポートが使えないっぽい](https://repost.aws/questions/QU1bCV9wT4T5iBrrP1c2ISfg/container-cannot-bind-to-port-80-running-as-non-root-user-on-ecs-fargate) --> つまり，localのdockerで80でサービスが起動できてもECSだと権限エラーになる。このため，コンテナで開放するportは8080としている(ALBに対して8080がマッピングされているためブラウザからは80でアクセスできる)。
+### toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+- Docker Hubに短期間にアクセスしすぎているだけなので放置でOK
+### Error response from daemon: dockerfile parse error
+- DockerfileのRUNをヒアドキュメントで書いていたら怒られた(ローカルでは動いてたのに...)
+
+```
+# 修正前Dockerfile
+RUN <<EOF
+mkdir -p /var/log/nginx
+chown -R nginx:nginx /var/log/nginx
+touch /run/nginx.pid
+chown -R nginx:nginx /run/nginx.pid
+EOF
+
+# 修正後
+RUN mkdir -p /var/log/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && touch /run/nginx.pid \
+    && chown -R nginx:nginx /run/nginx.pid
+```
+
+### Resource handler returned message: "Error occurred during operation 'ECS Deployment Circuit Breaker was triggered'.
+コンテナが正常に起動していない。amd64を指定したら動いた。
+
+```shell
+DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot deploy
+```
+******
+
+
+## その他
+### copilot app showでCFnスタックを消したはずのアプリが表示されてしまう
+- copilot app showはParameter Storeを見ているのでそこを消す。
