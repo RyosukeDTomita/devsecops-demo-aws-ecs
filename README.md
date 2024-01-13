@@ -12,14 +12,13 @@
 
 ## ABOUT
 
-Sample for DevSecOps environment.
-If you need help or questions, please contact [twitter](https://twitter.com/sigma5736394841), issues.
+Sample React application for Trying to Use DevSecOps tools.
 
 ## ENVIRONMENT
 
-- AWS
-- GitHub Actions
-- node:20
+- AWS: ECS on Fargate に Code Pipeline 経由でデプロイする。サンプルでは dev と prod 環境を用意し、dev 環境で動作確認後に承認ボタンを押すと prod 環境にもデプロイが進む形になっている。
+- Github Actions
+- application: create-react-app で作られるやつ
 
 ---
 
@@ -38,11 +37,11 @@ If you need help or questions, please contact [twitter](https://twitter.com/sigm
 
 ---
 
-### Automation Tools
+### Tools
 
 See [./doc/tools_doc](./doc/tools_doc)
 
-#### local tools
+#### running on local computer
 
 - pre-commit，git-secret
 
@@ -177,6 +176,8 @@ copilot pipeline deploy
 
 - [./copilot/pipelines/react-app-pipeline/buildspec.yml](./copilot/pipelines/react-app-pipeline/buildspec.yml)を編集して trivy による image scan を追加する。
 
+  > [ECR のイメージスキャン機能](https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/image-scanning.html)はデフォルトであるので併用してもよいかも。
+
 ```yaml
 install:
   commands:
@@ -212,7 +213,7 @@ xxxxxx.dkr.ecr.ap-northeast-1.amazonaws.com/react-app/dev-svc:xxxxxx-xxxxx-xxxx-
 
 ---
 
-## その他の設定
+### その他の設定
 
 - ローカルでのセットアップが必用なのは git-secrets と pre-commit くらい
 - [pre-commit のドキュメント](./doc/tools_doc/pre-commit.md)
@@ -244,6 +245,50 @@ git secrets --register-aws # awsのクレデンシャル検知ルールを登録
 
 ## Error Log
 
+### Code Build のエラー
+
+以下コマンドでログが見れる。もしくは Code Deploy で見ても良い。
+
+```shell
+copilot svc logs --previous
+```
+
 ### nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
 
 - [ECS の仕様で非特権ユーザを使用したコンテナでは 80 番ポートが使えないっぽい](https://repost.aws/questions/QU1bCV9wT4T5iBrrP1c2ISfg/container-cannot-bind-to-port-80-running-as-non-root-user-on-ecs-fargate) --> つまり，local の docker で 80 でサービスが起動できても ECS だと権限エラーになる。このため，コンテナで開放する port は 8080 としている(ALB に対して 8080 がマッピングされているためブラウザからは 80 でアクセスできる)。
+
+### toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+
+- Docker Hub に短期間にアクセスしすぎているだけなので放置で OK
+
+### Error response from daemon: dockerfile parse error
+
+- Dockerfile の RUN をヒアドキュメントで書いていたら怒られた(ローカルでは動いてたのに...)
+
+```dockerfile
+# 修正前Dockerfile
+RUN <<EOF
+mkdir -p /var/log/nginx
+chown -R nginx:nginx /var/log/nginx
+touch /run/nginx.pid
+chown -R nginx:nginx /run/nginx.pid
+EOF
+
+# 修正後
+RUN mkdir -p /var/log/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && touch /run/nginx.pid \
+    && chown -R nginx:nginx /run/nginx.pid
+```
+
+### Resource handler returned message: "Error occurred during operation 'ECS Deployment Circuit Breaker was triggered'
+
+コンテナが正常に起動していない。amd64 を指定したら動いた。
+
+```shell
+DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot deploy
+```
+
+### copilot app show で CFn スタックを消したはずのアプリが表示されてしまう
+
+- copilot app show は Parameter Store を見ているのでそこを消す。
