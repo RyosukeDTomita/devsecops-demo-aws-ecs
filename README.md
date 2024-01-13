@@ -79,20 +79,22 @@ application: react-app
 - amd64 を指定しないとビルドエラーになる。
 - 名前は任意だが，dev-env，dev-svc と prod-env，prod-svc とした。
 - Type は Load Balancer を選択した。
+- 新しい VPC や，ECS の Cluster，Load Balancer や権限周りが作成される。
 
 ```shell
 DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot init
 ```
 
-- copilot/以下のファイルを編集することで設定を変更できる。
+> [!IMPORTANT] 
+> copilot/以下のファイルを編集することで設定を変更できる。
 
 > [!NOTE]
 > production と development で共通の VPC を使う場合には以下のようにして`copilot env init`単体で作成する。
 
 <!-- markdownlint-disable MD033 -->
 <details>
-<summary>see detail</summary>
-- 新しい VPC や，ECS の Cluster，Load Balancer や権限周りが作成される。
+<summary>共通のVPCを使う場合の詳細</summary>
+
 
 ```shell
 copilot env init
