@@ -1,9 +1,11 @@
-# hadolintの使い方
-## 概要
-> [hadolint github](https://github.com/hadolint/hadolint)
-Dockerfileを綺麗にするツール。
-******
+# hadolint の使い方
 
+## 概要
+
+> [hadolint github](https://github.com/hadolint/hadolint)
+> Dockerfile を綺麗にするツール。
+
+---
 
 ## install
 
@@ -11,8 +13,8 @@ Dockerfileを綺麗にするツール。
 sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
 sudo chmod 755 /usr/bin/hadolint
 ```
-******
 
+---
 
 ## 実行
 
@@ -23,8 +25,9 @@ hadolint --trusted-registry grc.io ./myapp/Dockerfile # --trusted-registryに登
 ./myapp/Dockerfile:1 DL3026 error: Use only an allowed registry in the FROM image
 ./myapp/Dockerfile:7 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation.
 ```
-******
 
+---
 
 ## エラー例
-- /Dockerfile:7 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation. --> RUNを一つにまとめたほうがイメージのレイヤーを最小化できる。
+
+- /Dockerfile:7 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation. --> RUN を一つにまとめたほうがイメージのレイヤーを最小化できる。
