@@ -85,7 +85,7 @@ application: react-app
 DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot init
 ```
 
-> [!IMPORTANT] 
+> [!IMPORTANT]
 > copilot/以下のファイルを編集することで設定を変更できる。
 
 > [!NOTE]
