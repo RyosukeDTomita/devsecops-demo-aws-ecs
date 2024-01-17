@@ -10,7 +10,7 @@
 ## install
 
 ```shell
-sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
+sudo wget -O /usr/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
 sudo chmod 755 /usr/bin/hadolint
 ```
 
