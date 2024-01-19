@@ -9,3 +9,5 @@ LICENSE
 .github/
 src/__tests__/*
 copilot/*
+Dockerfile
+docker-compose.yml
