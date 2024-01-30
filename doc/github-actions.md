@@ -1,16 +1,24 @@
 # GitHub Actions 関連
+
 > [!NOTE]
-> 個々のツールのGitHub Actionsの実行方法はツールごとのドキュメント参照。
+> 個々のツールの GitHub Actions の実行方法はツールごとのドキュメント参照。
 
-## READMEにバッチをつける
+## README にバッチをつける
 
-- リポジトリのActionsのページから**Create status badge**をクリックしてREADME.mdに貼り付ける。
+### GitHub Actions の Workflow
+
+- リポジトリの Actions のページから**Create status badge**をクリックして README.md に貼り付ける。
 
 ![バッチのつけかた](./fig/badge.png)
-******
 
+### license を示すバッチをつける
 
-## 特定のコミットを使ってactionsを実行する。
+- `https://img.shields.io/github/license/<Github-Username>/<Repository>`のようにしてつける。
+  ![no license](https://img.shields.io/github/license/RyosukeDTomita/devsecops-demo-aws-ecs)
+
+---
+
+## 特定のコミットを使って actions を実行する
 
 ```yaml
 actions/setup-python@コミットハッシュ
