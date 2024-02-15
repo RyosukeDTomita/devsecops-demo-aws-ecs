@@ -27,7 +27,7 @@ jobs:
           output: 'sca-report.sarif'
           severity: 'CRITICAL,HIGH'
       - name: save report as pipeline artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sca-report.sarif
           path: sca-report.sarif
