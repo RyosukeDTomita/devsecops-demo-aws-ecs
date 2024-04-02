@@ -21,9 +21,9 @@ Sample React application for Trying to Use DevSecOps tools.
 
 ## ENVIRONMENT
 
-- AWS: ECS on Fargate に Code Pipeline 経由でデプロイする。サンプルでは dev と prod 環境を用意し、dev 環境で動作確認後に承認ボタンを押すと prod 環境にもデプロイが進む形になっている。
-- Github Actions
-- application: create-react-app で作られるやつ
+- AWS: ECS on FargateにCode Pipeline経由でデプロイする。サンプルではdevとprod環境を用意し、dev環境で動作確認後に承認ボタンを押すとprod環境のデプロイが進む形になっている。
+- GitHub Actions
+- application: create-react-appで作られるデフォルトそのまま。
 
 ---
 
@@ -66,12 +66,12 @@ See [./doc/tools_doc](./doc/tools_doc)
 
 ### AWS Settings
 
-copilot cli を使って環境構築を行う。
+copilot cliを使って環境構築を行う。
 
 #### Create app
 
-- 名前は任意だが，自分は react-app とした
-- ここで必用な IAM ロールの一部や KMS のキーや CodePipeline に使う S3 やそのポリシーが作成されている。
+- 名前は任意だが，自分は`react-app`とした
+- ここで必用なIAMロールの一部やKMSのキーやCodePipelineに使うS3やそのポリシーが作成されている。
 
 ```shell
 copilot app init
@@ -81,10 +81,10 @@ application: react-app
 
 #### development 用のと production 用の 2 つの environment と service を作成する
 
-- amd64 を指定しないとビルドエラーになる。
-- 名前は任意だが，dev-env，dev-svc と prod-env，prod-svc とした。
-- Type は Load Balancer を選択した。
-- 新しい VPC や，ECS の Cluster，Load Balancer や権限周りが作成される。
+- amd64を指定しないとビルドエラーになった。TODO
+- 名前は任意だが，dev-env，dev-svcとprod-env，prod-svcとした。
+- TypeはLoad Balancerを選択した。
+- 新しいVPCや，ECSのCluster，Load Balancerや権限周りが作成される。
 
 ```shell
 DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot init
@@ -131,13 +131,13 @@ Default environment configuration? No, I'd like to import existing resources
 
 </details>
 
-- environment をデプロイ
+- environmentをデプロイ
 
 ```shell
 copilot env deploy
 ```
 
-- service をデプロイする。
+- serviceをデプロイする。
   > [!WARNING]
   > この際に間違えて dev-svc や dev-env を選ばないように注意する。
 
@@ -154,13 +154,13 @@ copilot svc show # urlが出てくるのでそこにアクセスする
 
 ### CodePipeline の作成
 
-- 名前は任意だが，自分は react-app-pipeline とした。
+- 名前は任意だが，自分はreact-app-pipelineとした。
 
 ```shell
 copilot pipeline init
 ```
 
-- [manifest.yml](./copilot/pipelines/react-app-pipeline/manifest.yml)を編集して development でサービス開始後にユーザが承認した後に production にデプロイされるようにする。
+- [manifest.yml](./copilot/pipelines/react-app-pipeline/manifest.yml)を編集してdevelopmentでサービス開始後にユーザが承認した後にproductionにデプロイされるようにする。
 
 ```yaml
 requires_approval: true
@@ -233,19 +233,19 @@ git secrets --install
 git secrets --register-aws # awsのクレデンシャル検知ルールを登録
 ```
 
-- VSCode の Extensions もお好みで。Docker の hadolint はおすすめ。
+- VSCodeのExtensionsもお好みで。Dockerのhadolintはおすすめ。
 
-- GitHub Actions がスキャン結果のファイルをアップロードできるように権限をつける。詳細は[semgrep の yaml](./.github/workflows/react-semgrep.yaml)を参照。
+- GitHub Actionsがスキャン結果のファイルをアップロードできるように権限をつける。詳細は[semgrepのyaml](./.github/workflows/react-semgrep.yaml)を参照。
 
 ---
 
 ## HOW TO USE
 
 1. [PREPARING](#preparing)の設定を先にやる。
-2. commit 時には pre-commit と git-secret が作動
-3. push 時には GitHub Actions により SAST(semgrep)，UnitTest(jest)，Dependency Check(trivy)が実行される。
-4. master ブランチにマージしたり master に push した時に CodePipeline によって AWS へリポジトリがクローンされ，ビルド(image scan を含む)，development へのデプロイが始まる。
-5. development で問題がなければ CodePipeline 上で承認し，production へデプロイ
+2. commit時にはpre-commitとgit-secretが作動
+3. push時にはGitHub ActionsによりSAST(semgrep)，UnitTest(jest)，Dependency Check(trivy)が実行される。
+4. masterブランチにマージしたりmasterにpushした時にCodePipelineによってAWSへリポジトリがクローンされ，ビルド(image scanを含む)，developmentへのデプロイが始まる。
+5. developmentで問題がなければCodePipeline上で承認し，productionへデプロイ
 
 ---
 
@@ -253,7 +253,7 @@ git secrets --register-aws # awsのクレデンシャル検知ルールを登録
 
 ### Code Build のエラー
 
-以下コマンドでログが見れる。もしくは Code Deploy で見ても良い。
+以下コマンドでログが見られる。ブラウザのAWS Code Deploy
 
 ```shell
 copilot svc logs --previous
@@ -261,15 +261,15 @@ copilot svc logs --previous
 
 ### nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
 
-- [ECS の仕様で非特権ユーザを使用したコンテナでは 80 番ポートが使えないっぽい](https://repost.aws/questions/QU1bCV9wT4T5iBrrP1c2ISfg/container-cannot-bind-to-port-80-running-as-non-root-user-on-ecs-fargate) --> つまり，local の docker で 80 でサービスが起動できても ECS だと権限エラーになる。このため，コンテナで開放する port は 8080 としている(ALB に対して 8080 がマッピングされているためブラウザからは 80 でアクセスできる)。
+- [ECS の仕様で非特権ユーザを使用したコンテナでは 80 番ポートが使えないっぽい](https://repost.aws/questions/QU1bCV9wT4T5iBrrP1c2ISfg/container-cannot-bind-to-port-80-running-as-non-root-user-on-ecs-fargate) --> つまり，localのdockerで80でサービスが起動できてもECSだと権限エラーになる。このため，コンテナで開放するportは8080としている(ALBに対して8080がマッピングされているためブラウザからは80でアクセスできる)。
 
-### toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+### toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: <https://www.docker.com/increase-rate-limit>
 
-- Docker Hub に短期間にアクセスしすぎているだけなので放置で OK
+- Docker Hubに短期間にアクセスしすぎているだけなので放置でOK
 
 ### Error response from daemon: dockerfile parse error
 
-- Dockerfile の RUN をヒアドキュメントで書いていたら怒られた(ローカルでは動いてたのに...)
+- DockerfileのRUNをヒアドキュメントで書いていたら怒られた(ローカルでは動いてたのに...)
 
 ```dockerfile
 # 修正前Dockerfile
@@ -289,7 +289,7 @@ RUN mkdir -p /var/log/nginx \
 
 ### Resource handler returned message: "Error occurred during operation 'ECS Deployment Circuit Breaker was triggered'
 
-コンテナが正常に起動していない。amd64 を指定したら動いた。
+コンテナが正常に起動していない。amd64を指定したら動いた。
 
 ```shell
 DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot deploy
@@ -297,4 +297,4 @@ DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot deploy
 
 ### copilot app show で CFn スタックを消したはずのアプリが表示されてしまう
 
-- copilot app show は Parameter Store を見ているのでそこを消す。
+- `copilot app show`はParameter Storeを見ているのでそこを消す。

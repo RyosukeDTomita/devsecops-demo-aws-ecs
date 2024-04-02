@@ -7,7 +7,7 @@
 
 ### GitHub Actions の Workflow
 
-- リポジトリの Actions のページから**Create status badge**をクリックして README.md に貼り付ける。
+- リポジトリのActionsのページから**Create status badge**をクリックしてREADME.mdに貼り付ける。
 
 ![バッチのつけかた](./fig/badge.png)
 

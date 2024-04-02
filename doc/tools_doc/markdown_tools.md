@@ -1,8 +1,9 @@
-# Markdown用のツール(VSCodeの例)
+# Markdown用のツール(VSCode例)
 
-## README.md
+## README.mdをいい感じにする
 
-### linter
+### linterの導入
+
 - [markdown-lint](https://github.com/markdownlint/markdownlint)
 
 ```shell
@@ -10,36 +11,43 @@ git clone https://github.com/markdownlint/markdownlint
 cd markdownlint
 rake install
 ```
-- VSCodeのExtensionsmarkdown-linterを追加
+
+- VSCodeのExtensionsmarkdown-linterを追加。settings.jsonは以下で設定。
 
 #### 警告の抑止
+
 - [設定項目の一覧](https://spure.dev/markdownlint_setting/)を見ながら対応する。
-- [settings.json](#settings\.json)での抑止
 - markdown内での抑止はコメントを使う。
 
 ```md
 <!-- markdownlint-disable MD033 -->
 ```
 
-### formatter
-- VSCodeのPrettierを使う
+- VSCodeで使うならsettings.jsonによく使う警告設定をまとめておく。
 
-### settings\.json
+```json
+  // 抑止設定
+  "markdownlint.config": {
+    "MD010": false, // タブ
+    "MD013": false // 長い行
+  }
+```
+
+### formatterの導入
+
+- ~~VSCodeのPrettierを使う~~
+Prettierを使うと日本語と英語の間に謎の空白がはいるのでmarkdownlintをformatterとして使う。
 
 ```json
   // markdown
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
     "editor.formatOnSave": true,
   },
-  // 抑止設定
-  "markdownlint.config": {
-    "MD010": false, # タブ
-    "MD013": false # 長い行
-  }
 ```
 
-### snippetsについて
+### VSCodeにsnippetsを設定する
+
 - snippetは~/.config/Code/User/snippets/以下に格納する。
 - .vscode/以下に配置するとプロジェクトメンバーで共有できる。
 - command parreteで`snippets`を調べると言語ごとに登録可能。

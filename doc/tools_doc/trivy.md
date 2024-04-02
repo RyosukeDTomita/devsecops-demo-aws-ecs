@@ -16,12 +16,12 @@ sudo apt-get install trivy
 
 ## オプション
 
-- --vuln-type は os と library が選べる。指定しないと両方になる。これは絞らなくても良さそう。
-- --no-progress: 進捗バーを表示しない。CI/CD で出力をシンプルにする。
-- --exit-code 1: スキャンで脆弱性が出た時にステータスコード 1 を返すため CI/CD ツールなどで結果を評価しやすくなる。
+- --vuln-typeは`os`と`library`が選べる。指定しないと両方になる。これは絞らなくても良さそう。
+- --no-progress: 進捗バーを表示しない。CI/CDで出力をシンプルにする。
+- --exit-code 1: スキャンで脆弱性が出た時にステータスコード1を返すため，CI/CDツールなどで結果を評価しやすくなる。
 - --format table: 結果をテーブル形式で表示
 - fs: ファイルスキャンモード
-- --scanners vuln: 脆弱性スキャンモードを指定。Secrets(デフォルト on)や misconfig(デフォルト off)，license(デフォルト off)なども指定できる
+- --scanners vuln: 脆弱性スキャンモードを指定。Secrets(デフォルトon)やmisconfig(デフォルトではoff)，license(デフォルトではoff)なども指定できる
 - --vuln-type library: スキャン対象をライブラリに限定する。
 
 ---
@@ -59,8 +59,8 @@ trivy sbom test.json # sbomを解釈
 
 #### docker image のスキャン
 
-- Docker image で使っているライブラリの脆弱性を探す。
-- Dockerfile を用意する
+- Docker imageで使っているライブラリの脆弱性を探す。
+- Dockerfileを用意する
 
 ```shell
 FROM registry.access.redhad.com/ubi8/ubi:8.2
@@ -85,7 +85,7 @@ trivy sbom test.json
 
 ## エラー
 
-- image スキャンでコンテナを実行していない(docker container ps がない)
+- imageスキャンでコンテナを実行していない(`docker container ps`がない)時のエラー
 
 ```shell
 2023-12-05T22:31:00.272+0900	FATAL	image scan error: scan error: unable to initialize a scanner: unable to initialize a docker scanner: 4 errors occurred:

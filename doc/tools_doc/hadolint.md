@@ -1,9 +1,9 @@
-# hadolint の使い方
+# hadolintの使い方
 
 ## 概要
 
 > [hadolint github](https://github.com/hadolint/hadolint)
-> Dockerfile を綺麗にするツール。
+> Dockerfileを綺麗にするツール。
 
 ---
 
@@ -30,4 +30,4 @@ hadolint --trusted-registry grc.io ./myapp/Dockerfile # --trusted-registryに登
 
 ## エラー例
 
-- /Dockerfile:7 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation. --> RUN を一つにまとめたほうがイメージのレイヤーを最小化できる。
+- /Dockerfile:7 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation. --> RUNを1つにまとめたほうがイメージのレイヤーを最小化できる。
