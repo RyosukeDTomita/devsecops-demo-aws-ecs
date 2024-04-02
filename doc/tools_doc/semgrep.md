@@ -13,12 +13,12 @@ semgrep ./frontend-app
 
 ### VSCode Extensions
 
-- 最初に Sign in する必用がある。
-- Ctrl shift p で実行する。
+- 最初にSign inする必用がある。
+- Ctrl shift pで実行する。
 
-### Github Actions で semgrep を使う
+### GitHub Actions で semgrep を使う
 
-- 事前にリポジトリの設定から --> Code and automation --> Actions --> General の Workflow permissions を Read and write permissions に変更しておく必用がある。
+- 事前にリポジトリの設定から --> Code and automation --> Actions --> GeneralのWorkflow permissionsをRead and write permissionsに変更しておく必用がある。
 
 ```json
 name: Semgrep Full Scan

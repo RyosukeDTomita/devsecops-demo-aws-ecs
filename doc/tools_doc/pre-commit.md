@@ -2,11 +2,11 @@
 
 ## 概要
 
-- git のコミット時に linter 等を実行させるのに使う。
+- gitのコミット時にlinter等を実行させるのに使う。
 
 ---
 
-## インストール
+## install
 
 ```shell
 pip install pre-commit
@@ -16,7 +16,7 @@ pre-commit install
 
 ### インストール時のエラー
 
-- `AttributeError: module 'virtualenv.create.via_global_ref.builtin.cpython.mac_os' has no attribute 'CPython2macOsFramework'`がでている。これは virtualenv に関連するエラーなので upgrade したりしてみる。
+- `AttributeError: module 'virtualenv.create.via_global_ref.builtin.cpython.mac_os' has no attribute 'CPython2macOsFramework'`がでている。これはvirtualenvに関連するエラーなのでupgradeしたりしてみる。
 - [pipenv の初期化時に発生するエラー](https://qiita.com/akis1215/items/11c9ca506cac8bcde5d9)を参考に入れ直したら直った。
 
 ```shell
@@ -29,15 +29,15 @@ sudo pip3 install virtualenv
 ## 使い方
 
 - [pre-commit を使うサンプル](https://zenn.dev/yiskw713/articles/3c3b4022f3e3f22d276d)を見ながら設定する。
-- **linter からエラーがでるとコミットできないので注意**
-- .pre-commit-config.yaml をいじって`pre-commit install`して git commit すると動作が確認できる。
+- **linterからエラーがでるとコミットできないので注意**
+- .pre-commit-config.yamlをいじって`pre-commit install`してgit commitすると動作が確認できる。
 - **デフォルトでは変更されたファイルに対してのみしか実行**されないので注意が必用。全体のチェックをしたいなら手動で行える。
 
 ```shell
 pre-commit run --all-files
 ```
 
-- 以下は hadolint(Dockerfile のスキャン)を実行する.pre-commit-config.yaml の例
+- 以下はhadolint(Dockerfileのリンター)を実行するための`.pre-commit-config.yaml`の例
 
 ```yaml
 default_stages: [commit]
@@ -60,9 +60,9 @@ repos:
 
 > 詳細は[pre-commit 公式ドキュメントを見る](https://pre-commit.com/)
 
-- id: [対応している hook 一覧](https://pre-commit.com/hooks.html)を見るとわかる?コマンド名をいれておけばよさそう?
-- rev: latest は指定できないのでメンテが必用そう
-- files: スキャン対象を正規表現で絞れる。**スキャン対象のファイルが見つからない時につけても意味ない。**パスは id の args とかで指定する。
+- id: [対応している hook 一覧](https://pre-commit.com/hooks.html)を見てコマンド名をいれておけばよさそう。
+- rev: latestは指定できないのでメンテが必用そう
+- files: スキャン対象を正規表現で絞れる。**スキャン対象のファイルが見つからない時につけても意味ない。**パスはidのargsで指定する。
 - exclude: スキャン対象から除外するものを指定できる。
 
 ### eslint を使う
@@ -106,7 +106,7 @@ pre-commit run -a
 
 ## エラー
 
-- md の最後が## test のような形で終わっており，内容がないとエラーになる
+- mdの最後が## testのような形で終わっており，タグに要素がないとエラーになる。
 
 ```shell
 Fix End of Files.........................................................Failed
