@@ -23,3 +23,30 @@
 ```yaml
 actions/setup-python@コミットハッシュ
 ```
+
+---
+
+## CodeQLを使ってファイルを出力
+
+### Advanced Security must be enabled for this repository to use code scanning 403: GitHub Advanced Security is not enabled
+- publicリポジトリ以外で使用していると出るエラー。
+
+- [公式ドキュメント](https://docs.github.com/ja/code-security/code-scanning/troubleshooting-code-scanning/advanced-security-must-be-enabled)を見ると
+  - code scanningが有効になっている
+  - GitHub Advanced Securityを実行しようとした場合
+に出るエラーでcodd scanningが使えるのは無料ではpublicリポジトリのみ。
+
+```yaml
+        # reportsを生成(Actionsから確認できる)
+        - name: save report as pipeline artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: report.sarif
+            path: report.sarif
+        # scanの結果を解析。GithubのSecurity --> Code Scanning等でアラートが見られる。
+        - name: publish code scanning alerts
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: report.sarif
+            category: semgrep
+```
