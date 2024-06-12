@@ -3,15 +3,17 @@
 > [!NOTE]
 > 個々のツールの GitHub Actions の実行方法はツールごとのドキュメント参照。
 
-## README にバッチをつける
+## README バッチをつける
 
-### GitHub Actions の Workflow
+### GitHub Actions の Workflowの結果をバッチで表示
 
 - リポジトリのActionsのページから**Create status badge**をクリックしてREADME.mdに貼り付ける。
 
 ![バッチのつけかた](./fig/badge.png)
 
-### license を示すバッチをつける
+### license を示すバッチ(おまけ)
+
+Actionsに関係なくLICENSEファイルを配置しておけばよい
 
 - `https://img.shields.io/github/license/<Github-Username>/<Repository>`のようにしてつける。
   ![no license](https://img.shields.io/github/license/RyosukeDTomita/devsecops-demo-aws-ecs)
@@ -20,8 +22,48 @@
 
 ## 特定のコミットを使って actions を実行する
 
+コミットハッシュをつかうことでactionsで使うライブラリのバージョン管理ができる。
+
 ```yaml
 actions/setup-python@コミットハッシュ
+```
+
+---
+
+## GitHub ActionsでSecretを扱う
+
+> [公式ドキュメント](https://docs.github.com/ja/actions/security-guides/using-secrets-in-github-actions)
+
+### 2種類のシークレット
+
+- Environment Secret: Environmentを作成して値を区別して使用できる。Environmentはリポジトリに対して複数作成できる。
+- Repository Secret: リポジトリで共通の値を使う。
+
+### 使用方法
+
+> [GitHub CLIでリポジトリへsecretを設定](https://zenn.dev/hankei6km/articles/set-secret-to-repo-with-githubcli)
+> [GitHub Actionsで機密情報を扱う方法](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)
+
+- 個人的には.envから一括投入するのが使いやすそう。今回の例では--envを指定しているが指定しないとRepository Secretになる。
+
+```shell
+cat .env
+API_TOKEN=xxxxxxxx
+gh secret set --env environment名 --env-file .env
+gh secret list --env development
+```
+
+- GitHub actionsのyamlから参照する。
+
+```yaml
+jobs:
+  runs-on: ubuntu-latest
+  environment:
+    name: development # actionsのsecretの参照先を指定
+
+  steps:
+    -run: |
+      echo ${{ secrets.API_TOKEN }}
 ```
 
 ---
@@ -29,6 +71,7 @@ actions/setup-python@コミットハッシュ
 ## CodeQLを使ってファイルを出力
 
 ### Advanced Security must be enabled for this repository to use code scanning 403: GitHub Advanced Security is not enabled
+
 - publicリポジトリ以外で使用していると出るエラー。
 
 - [公式ドキュメント](https://docs.github.com/ja/code-security/code-scanning/troubleshooting-code-scanning/advanced-security-must-be-enabled)を見ると
