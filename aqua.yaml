@@ -11,3 +11,4 @@ registries:
   ref: v4.193.0 # renovate: depName=aquaproj/aqua-registry
 packages:
 - name: suzuki-shunsuke/pinact@v0.2.0
+- name: suzuki-shunsuke/github-comment@v6.0.4
