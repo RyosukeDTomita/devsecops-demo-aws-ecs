@@ -34,7 +34,7 @@ sudo pip3 install virtualenv
 - **デフォルトでは変更されたファイルに対してのみしか実行**されないので注意が必用。全体のチェックをしたいなら手動で行える。
 
 ```shell
-pre-commit run --all-files
+pre-commit run --all-file
 ```
 
 - 以下はhadolint(Dockerfileのリンター)を実行するための`.pre-commit-config.yaml`の例

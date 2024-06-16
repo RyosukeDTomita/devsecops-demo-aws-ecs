@@ -18,8 +18,6 @@ aqua i -l
 
 ## 使い方
 
-ブランチがリモート(github.com)に存在しないとエラーが出る。
-
 ```shell
 github-comment post -k test
 opts is invalid: org is required
