@@ -16,6 +16,10 @@ go install github.com/aquaproj/aqua/v2/cmd/aqua@latest
 sudo mv ~/go/bin/aqua /usr/local/bin/
 ```
 
+上記の方法でインストールしたところ，`aqua -v`の結果がうまく表示されなくなったのでバイナリからインストールして配置した。
+
+- aquaでインストールしたツールにパスが通るように設定
+
 ```
 # bashrc
 export PATH="$(aqua root-dir)/bin:$PATH"
@@ -25,6 +29,7 @@ export PATH="$(aqua root-dir)/bin:$PATH"
 
 ```shell
 aqua init # aqua.yamlを作成
+aqua i -l # これを実行しないとダウンロードしたツールが使えない。
 aqua g -i suzuki-shunsuke/pinact
 ```
 
