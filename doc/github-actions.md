@@ -39,7 +39,7 @@ actions/setup-python@コミットハッシュ
 - Environment Secret: Environmentを作成して値を区別して使用できる。Environmentはリポジトリに対して複数作成できる。
 - Repository Secret: リポジトリで共通の値を使う。
 
-### 使用方法
+### 使用方法(CLI)
 
 > [GitHub CLIでリポジトリへsecretを設定](https://zenn.dev/hankei6km/articles/set-secret-to-repo-with-githubcli)
 > [GitHub Actionsで機密情報を扱う方法](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)

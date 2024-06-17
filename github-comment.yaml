@@ -1,0 +1,51 @@
+---
+skip_no_token: true
+base:
+  org: RyosukeDTomita
+  repo: devsecops-demo-aws-ecs
+post:
+  default:
+    template: |
+      {{.Org}}/{{.Repo}} test
+  hello:
+    template: |
+      hello world!
+exec:
+  hello:
+    - when: true
+      template: |
+        {{template "header" .}}
+        {{.Vars.foo}} {{.Vars.zoo.foo}}
+        {{.Org}} {{.Repo}} {{.PRNumber}} {{.SHA1}} {{.TemplateKey}}
+        exit code: {{.ExitCode}}
+
+        ```console
+        $ {{.Command}}
+        ```
+
+        Stdout:
+
+        ```
+        {{.Stdout}}
+        ```
+
+        Stderr:
+
+        ```
+        {{.Stderr}}
+        ```
+
+        CombinedOutput:
+
+        ```
+        {{.CombinedOutput}}
+        ```
+      template_for_too_long: |
+        {{template "header" .}}
+        {{.Vars.foo}} {{.Vars.zoo.foo}}
+        {{.Org}} {{.Repo}} {{.PRNumber}} {{.SHA1}} {{.TemplateKey}}
+        exit code: {{.ExitCode}}
+
+        ```console
+        $ {{.Command}}
+        ```
