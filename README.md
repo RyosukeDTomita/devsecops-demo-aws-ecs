@@ -12,7 +12,7 @@
 - [ENVIRONMENT](#environment)
 - [PREPARING](#preparing)
 - [HOW TO USE](#how-to-use)
-- [Error Log](#error-log)
+- [ERROR LOG](#error-log)
 
 ---
 
@@ -36,11 +36,14 @@ Sample React application for Trying to Use DevSecOps tools.
 
 - [ghalint](./doc/tools_doc/ghalint.md): GitHub Actionsで実行されるworkflows用のlinter
 - [github-comment](./doc/tools_doc/github-comment.md): GitHub Actionsで実行されるCIが失敗したときにコメントとしてエラーを出力する。
-- [semgrep](./doc/tools_doc/semgrep.md)
+- [semgrep](./doc/tools_doc/semgrep.md): GitHub Actionsで実行するSASTツール
 - [trivy](./doc/tools_doc/trivy.md): イメージのスキャンやdependency checkができる。dependency checkはGitHub Actionsで実行，イメージスキャンはAWS Code Pipelineで実行。
 
 - [aqua](./doc/tools_doc/aqua.md): GitHub Actionsで使用するCLIツールのバージョン管理ができる。
 - [pinact](./doc/tools_doc/pinact.md): GitHub Actionsで使うactionsのバージョンをフルコミットハッシュに変換。
+
+> [!NOTE]
+> 一応単体テスト枠でjestもGitHub Actionsで実行される。
 
 ### pre-commit(git committ前)に使うツール
 
@@ -110,7 +113,7 @@ pre-commit install
 
 ---
 
-## Error Log
+## ERROR LOG
 
 <details>
 <summary>今まで詰まったエラー一覧</summary><div>
