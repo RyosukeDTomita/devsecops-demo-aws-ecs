@@ -84,6 +84,25 @@ on:
 
 ---
 
+## Branch Protectionsのルールを使って必ず成功してほしいjobを指定する
+
+### Branch Protectionsとは
+
+- GitHubのリポジトリの設定から編集可能。
+- Branchのforce-pushを禁止する等ブランチ単位でルールを設定できる。
+
+### Branch ProtectionsでPR前に成功してほしいCIを指定する
+
+- `Require status checks to pass before merging`を有効にし，必要なjobを選択する。
+- yamlでいうところのjobs配下の要素が指定できる。
+
+```yaml
+jobs:
+  frontend-jest: # ここが指定可能。
+```
+
+---
+
 ## CodeQLを使ってファイルを出力
 
 ### Advanced Security must be enabled for this repository to use code scanning 403: GitHub Advanced Security is not enabled
