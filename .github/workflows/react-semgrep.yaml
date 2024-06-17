@@ -15,6 +15,9 @@ jobs:
 
   semgrep-full:
       runs-on: ubuntu-latest
+      permissions:
+        contents: read
+        packages: write
       container:
         image: returntocorp/semgrep
 

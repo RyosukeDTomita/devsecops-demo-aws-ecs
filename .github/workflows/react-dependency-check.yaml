@@ -13,6 +13,9 @@ jobs:
 
   trivy-scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: clone application source code

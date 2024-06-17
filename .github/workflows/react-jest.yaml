@@ -13,6 +13,8 @@ defaults:
 jobs:
   frontend-jest: # job id(Typed by user)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       # デフォルトのワーキングディレクトリのため設定不要だが，明示的に指定。
       run:
