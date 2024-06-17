@@ -29,8 +29,9 @@ export PATH="$(aqua root-dir)/bin:$PATH"
 
 ```shell
 aqua init # aqua.yamlを作成
-aqua i -l # これを実行しないとダウンロードしたツールが使えない。
 aqua g -i suzuki-shunsuke/pinact
+aqua i -l # これを実行後にコマンドを実行するとローカルにダウンロードされる。
+pinact
 ```
 
 ---
