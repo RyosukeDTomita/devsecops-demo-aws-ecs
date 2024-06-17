@@ -10,7 +10,7 @@
 
 ```shell
 pip install pre-commit
-pre-commit sample-config > .pre-commit-config.yaml
+pre-commit sample-config > .pre-commit-config.yaml # すでに本リポジトリでは作成済み
 pre-commit install
 ```
 
