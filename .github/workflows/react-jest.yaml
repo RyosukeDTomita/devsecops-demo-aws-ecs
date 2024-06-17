@@ -4,6 +4,7 @@ on:
     paths:
       - "src/**.tsx"
       - "src/**.ts"
+      - "public/**.html"
 
 defaults:
   run:
