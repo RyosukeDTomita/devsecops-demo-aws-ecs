@@ -1,8 +1,8 @@
 name: actions-lint
 on:
   pull_request:
-    # paths:
-    #   - .github/workflows/*.yaml
+    paths:
+      - .github/workflows/*.yaml
 jobs:
   run-ghalint:
     runs-on: ubuntu-latest
