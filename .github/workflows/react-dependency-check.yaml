@@ -2,6 +2,10 @@ name: trivy dependency check for package.json
 # https://github.com/aquasecurity/trivy-action#usage
 on:
   push:
+    paths:
+      - "src/**.tsx"
+      - "src/**.ts"
+      - "public/**.html"
   schedule:
     # 日曜日の午前0時に実行
     - cron:  '0 0 * * 0'
