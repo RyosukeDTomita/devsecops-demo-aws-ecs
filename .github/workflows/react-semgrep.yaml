@@ -3,10 +3,10 @@ name: Semgrep Full Scan
 #リポジトリの設定から --> Code and automation --> Actions --> GeneralのWorkflow permissionsをRead and write permissionsに[参考画像](../../doc/fig/semgrep_upgrade_grant.png)
 on:
   push:
-    paths:
-      - "src/**.tsx"
-      - "src/**.ts"
-      - "public/**.html"
+    # paths:
+    #   - "src/**.tsx"
+    #   - "src/**.ts"
+    #   - "public/**.html"
   schedule:
     # 日曜日の午前0時に実行
     - cron:  '0 0 * * 0'

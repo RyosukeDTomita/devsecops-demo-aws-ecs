@@ -3,8 +3,8 @@ name: trivy dependency check for package.json
 # TODO: aquaを使ってインストールして使う形にしたほうがわかりやすいかも
 on:
   push:
-    paths:
-      - "package.json"
+    # paths:
+    #   - "package.json"
   schedule:
     # 日曜日の午前0時に実行
     - cron:  '0 0 * * 0'

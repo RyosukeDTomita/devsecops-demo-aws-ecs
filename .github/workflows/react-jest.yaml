@@ -1,17 +1,17 @@
 name: run-jest
 on:
   push:
-    paths:
-      - "src/**.tsx"
-      - "src/**.ts"
-      - "public/**.html"
+    # paths:
+    #   - "src/**.tsx"
+    #   - "src/**.ts"
+    #   - "public/**.html"
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  frontend-jest: # job id(Typed by user)
+  frontend-jest: # job id(typed by user)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -21,10 +21,10 @@ jobs:
         working-directory: /home/runner/work/devsecops-demo-aws-ecs/devsecops-demo-aws-ecs
 
     steps:
-      # Checkout repository to runner
+      # checkout repository to runner
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
-      - name: Set up node20
+      - name: set up node20
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3.8.2
         with:
           node-version: '20'
@@ -36,8 +36,8 @@ jobs:
         with:
           aqua_version: v2.29.0
 
-      - name: Install Dependencies
-        run: github-comment exec --token ${{ secrets.TOKEN }} --  npm install
+      - name: install dependencies
+        run: github-comment exec --token ${{ secrets.token }} --  npm install
 
-      - name: Run npm test
-        run: github-comment exec --token ${{ secrets.TOKEN }} -- npm test -- --watchAll=false
+      - name: run npm test
+        run: github-comment exec --token ${{ secrets.token }} -- npm test -- --watchall=false
