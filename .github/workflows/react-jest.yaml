@@ -1,5 +1,10 @@
 name: run-jest
-on: [push]
+on:
+  push:
+    paths:
+      - "src/**.tsx"
+      - "src/**.ts"
+      - "public/**.html"
 
 defaults:
   run:
