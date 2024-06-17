@@ -1,10 +1,11 @@
 name: run-jest
 on:
   push:
-    # paths:
-    #   - "src/**.tsx"
-    #   - "src/**.ts"
-    #   - "public/**.html"
+    paths:
+      - "src/**.tsx"
+      - "src/**.ts"
+      - "public/**.html"
+      - ".github/workflows/react-jest.yaml"
 
 defaults:
   run:
