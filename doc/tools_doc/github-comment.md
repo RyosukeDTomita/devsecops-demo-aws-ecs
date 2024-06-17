@@ -20,6 +20,8 @@ GitHub Actionsを使いたい場合には後述の手順を参照。
 
 ## 使い方
 
+> [公式ドキュメント](https://suzuki-shunsuke.github.io/github-comment/getting-started)
+
 ### 共通してやること
 
 - github-comment.yaml(template)を用意する。

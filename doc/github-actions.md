@@ -32,7 +32,7 @@ actions/setup-python@コミットハッシュ
 
 ## GitHub ActionsでSecretを扱う
 
-> [公式ドキュメント](https://docs.github.com/ja/actions/security-guides/using-secrets-in-github-actions)
+> GUIの場合は[公式ドキュメント](https://docs.github.com/ja/actions/security-guides/using-secrets-in-github-actions)参照。
 
 ### 2種類のシークレット
 
@@ -41,8 +41,8 @@ actions/setup-python@コミットハッシュ
 
 ### 使用方法(CLI)
 
-> [GitHub CLIでリポジトリへsecretを設定](https://zenn.dev/hankei6km/articles/set-secret-to-repo-with-githubcli)
-> [GitHub Actionsで機密情報を扱う方法](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)
+> [GitHub CLIでリポジトリへsecretを設定する方法](https://zenn.dev/hankei6km/articles/set-secret-to-repo-with-githubcli)
+> [GitHub ActionsでEnvironment Secretを扱うサンプル](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)
 
 - 個人的には.envから一括投入するのが使いやすそう。今回の例では--envを指定しているが指定しないとRepository Secretになる。
 
@@ -65,6 +65,10 @@ jobs:
     -run: |
       echo ${{ secrets.API_TOKEN }}
 ```
+
+---
+
+## path filterを使って特定のファイル変更時のみCIを走らせる
 
 ---
 
