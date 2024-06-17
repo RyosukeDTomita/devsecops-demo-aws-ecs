@@ -42,3 +42,7 @@ WARN[0000] get a reference error="GET https://api.github.com/repos/aquasecurity/
 
 のような記載があり，GITHUB_TOKENをexportしているとそれを使ってpinactを起動しようとするらしい。
 そのため，GITHUB_TOKENをunexportしたら解決。
+
+### 422 No commit found for SHA
+
+たまに，pinactがフルコミットハッシュを取得できないことがあるので手動でreleaseに関連付けられているコミットハッシュをurlから取得して記載することで[ghalint](./ghalint.md)のエラーを消せる。

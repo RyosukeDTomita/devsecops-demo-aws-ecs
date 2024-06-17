@@ -2,8 +2,6 @@
 
 ## ghalintとは
 
-> [ghalintが検知してPolicy](https://github.com/suzuki-shunsuke/ghalint?tab=readme-ov-file#policies)
-> [permissionsの一覧が載っているページ](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions)
 ---
 
 ## install
@@ -20,6 +18,8 @@ aqua g -i suzuki-shunsuke/ghalint@v0.2.11
 ghalint run
 ```
 
+- [ghalintが検知してPolicy](https://github.com/suzuki-shunsuke/ghalint?tab=readme-ov-file#policies)をみて修正する。
+
 ---
 
 ## 修正log
@@ -27,6 +27,7 @@ ghalint run
 ### All jobs should have the field permissions
 
 - [内容](https://github.com/suzuki-shunsuke/ghalint/blob/main/docs/policies/001.md): すべてのjobにpermissionをつけないといけない。
+- [permissionsの一覧が載っているページ](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions)を参照。
 
 ```yaml
 jobs:
@@ -44,5 +45,12 @@ jobs:
 ### the step violates policies
 
 - [内容](https://github.com/suzuki-shunsuke/ghalint/blob/main/docs/policies/008.md): フルコミットハッシュにすれば解決。
+- [pinact](./pinact.md)を使うと簡単に修正できる。
 
 ### the job violates policies
+
+imageにタグがついてなかったので修正。
+
+```yaml
+image: returntocorp/semgrep:sha-69df2e1
+```
