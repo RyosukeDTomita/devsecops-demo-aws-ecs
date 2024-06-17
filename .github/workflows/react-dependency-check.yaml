@@ -1,11 +1,10 @@
 name: trivy dependency check for package.json
 # https://github.com/aquasecurity/trivy-action#usage
+# TODO: aquaを使ってインストールして使う形にしたほうがわかりやすいかも
 on:
   push:
     paths:
-      - "src/**.tsx"
-      - "src/**.ts"
-      - "public/**.html"
+      - "package.json"
   schedule:
     # 日曜日の午前0時に実行
     - cron:  '0 0 * * 0'
