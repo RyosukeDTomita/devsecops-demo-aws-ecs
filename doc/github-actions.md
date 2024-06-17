@@ -70,6 +70,18 @@ jobs:
 
 ## path filterを使って特定のファイル変更時のみCIを走らせる
 
+- デフォルト設定だと，どのファイルが修正されてもCIが走ってしまうので必要なファイルが更新された時だけCIが起動できるようにする。
+
+```shell
+name: run-jest
+on:
+  push:
+    paths:
+      - "src/**.tsx"
+      - "src/**.ts"
+      - "public/**.html"
+```
+
 ---
 
 ## CodeQLを使ってファイルを出力
