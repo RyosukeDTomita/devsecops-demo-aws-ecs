@@ -147,14 +147,18 @@ jobs:
         working-directory: /home/runner/work/devsecops-demo-aws-ecs/devsecops-demo-aws-ecs
     strategy:
       matrix:
-        node-version: [20, 22]
+        node_version: [20, 22]
 
     steps:
       # checkout repository to runner
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
-      - name: set up node20
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3.8.2
+      - name: set up node
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: $ {{ matrix.node-version }
+          node-version: ${{ matrix.node_version }}
 ```
+
+成功すると以下のような感じになる。
+
+![matrix image](./fig/matrix_test.png)
