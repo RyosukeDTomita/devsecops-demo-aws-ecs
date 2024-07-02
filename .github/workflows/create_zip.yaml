@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - "doc/**"
+      - ".github/workflows/create_zip.yaml"
 
 defaults:
   run:
