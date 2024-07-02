@@ -128,3 +128,37 @@ jobs:
             sarif_file: report.sarif
             category: semgrep
 ```
+
+---
+
+## matrixを使ってジョブを複数実行する
+
+> [jobにmatrixを使用する](https://docs.github.com/ja/actions/using-jobs/using-a-matrix-for-your-jobs)
+
+```yaml
+jobs:
+  frontend-jest: # job id(typed by user)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # デフォルトのワーキングディレクトリのため設定不要だが，明示的に指定。
+    defaults:
+      run:
+        working-directory: /home/runner/work/devsecops-demo-aws-ecs/devsecops-demo-aws-ecs
+    strategy:
+      matrix:
+        node_version: [20, 22]
+
+    steps:
+      # checkout repository to runner
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: set up node
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: ${{ matrix.node_version }}
+```
+
+成功すると以下のような感じになる。
+
+![matrix image](./fig/matrix_test.png)
