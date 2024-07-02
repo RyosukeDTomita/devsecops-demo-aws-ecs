@@ -1,0 +1,33 @@
+name: create zip when main branch is pushed
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "doc/**"
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  ZIP_NAME: "tool_doc.zip"
+
+jobs:
+  create_zip:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: clone application source code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: create zip
+        run: zip -r ${{ env.ZIP_NAME }} doc
+
+      - name: create zip
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # 4.3.3
+        with:
+          path: ${{ env.ZIP_NAME }}
+          name: ${{ env.ZIP_NAME }}

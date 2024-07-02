@@ -9,6 +9,7 @@ on:
   schedule:
     # 日曜日の午前0時に実行
     - cron:  '0 0 * * 0'
+
 defaults:
   run:
     shell: bash
