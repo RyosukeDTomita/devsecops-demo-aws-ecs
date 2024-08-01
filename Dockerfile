@@ -6,6 +6,7 @@ WORKDIR /app
 ARG BUILD_ENV=development
 
 COPY . .
+
 # npm startは.env.developmentが優先されるがnpm run buildでは.env.productoinが優先されるので注意。
 RUN <<EOF
 npm install
@@ -28,15 +29,16 @@ FROM public.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-nginx:lates
 
 # Change owner to allow non-root users to start the service
 USER root
-RUN mkdir -p /var/log/nginx \
-    && chown -R nginx:nginx /var/log/nginx \
-    && touch /run/nginx.pid \
-    && chown -R nginx:nginx /run/nginx.pid
+RUN <<EOF
+mkdir -p /var/log/nginx
+chown -R nginx:nginx /var/log/nginx
+touch /run/nginx.pid
+chown -R nginx:nginx /run/nginx.pid
+EOF
 
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Use 8080 instead of 80 to avoid the `nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)` when using ECS.
 EXPOSE 8080
 USER nginx
 CMD ["nginx", "-g", "daemon off;"]
