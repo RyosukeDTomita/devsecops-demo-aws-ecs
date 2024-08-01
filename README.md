@@ -6,6 +6,9 @@
 [![trivy-dependency-check](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs/actions/workflows/react-dependency-check.yaml/badge.svg)](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs/actions/workflows/react-dependency-check.yaml)
 [![actions-lint](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs/actions/workflows/actions-linter.yaml/badge.svg)](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs/actions/workflows/actions-linter.yaml)
 
+**copilot-cliが使用できる最後のコミットです。本ブランチをアーカイブとして残しており，今後このブランチが更新されることはありません。**
+**This is the last commit where copilot-cli is available. This branch is kept as an archive and will not be updated in the future.**
+
 ## INDEX
 
 - [ABOUT](#about)
