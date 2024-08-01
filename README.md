@@ -20,11 +20,14 @@
 
 Sample React application for Trying to Use DevSecOps tools.
 
+> [!WARNING]
+> Since it costs money to maintain the AWS environment created with copilot-cli for the demo environment, I plan to use `GitHub-Pages` for future demos. I have archived [this branch](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs).
+> デモ環境に対して`copilot-cli`で作ったAWS環境を維持するのにお金がかかるのはもったいないので，以降は`github-pages`を使ってデモを動かそうと思います。[このブランチ](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs)をアーカイブを残してあります。
+
 1. [PREPARING](#preparing)の設定を先にやる。
 2. commit時にはpre-commitとgit-secretが作動。
 3. push時にはGitHub ActionsによりSAST(semgrep)，UnitTest(jest)，Dependency Check(trivy)が実行される。
-4. masterブランチにマージしたりmasterにpushした時にCodePipelineによってAWSへリポジトリがクローンされ，ビルド(image scanを含む)，developmentへのデプロイが始まる。
-5. developmentで問題がなければCodePipeline上で承認し，productionへデプロイ
+4. github-pagesにデプロイされる。 # TODO: more info
 
 ## ENVIRONMENT
 
@@ -37,7 +40,7 @@ Sample React application for Trying to Use DevSecOps tools.
 - [ghalint](./doc/tools_doc/ghalint.md): GitHub Actionsで実行されるworkflows用のlinter
 - [github-comment](./doc/tools_doc/github-comment.md): GitHub Actionsで実行されるCIが失敗したときにコメントとしてエラーを出力する。
 - [semgrep](./doc/tools_doc/semgrep.md): GitHub Actionsで実行するSASTツール
-- [trivy](./doc/tools_doc/trivy.md): イメージのスキャンやdependency checkができる。dependency checkはGitHub Actionsで実行，イメージスキャンはAWS Code Pipelineで実行。
+- [trivy](./doc/tools_doc/trivy.md): イメージのスキャンやdependency checkができる。dependency checkはGitHub Actionsで実行，イメージスキャンは#TODO
 
 - [aqua](./doc/tools_doc/aqua.md): GitHub Actionsで使用するCLIツールのバージョン管理ができる。
 - [pinact](./doc/tools_doc/pinact.md): GitHub Actionsで使うactionsのバージョンをフルコミットハッシュに変換。
@@ -63,34 +66,13 @@ Sample React application for Trying to Use DevSecOps tools.
 
 ---
 
-### AWSの構成
-
-AWS: ECS on FargateにCode Pipeline経由でデプロイする。サンプルではdevとprod環境を用意し、dev環境で動作確認後に承認ボタンを押すとprod環境のデプロイが進む形になっている。
-
-- app-infrastructure-roles
-  ![app-infrastructure-roles](./doc/fig/cfn/app-infrastructure-roles.png)
-- app-infrastructure
-  ![app-infrastructure](./doc/fig/cfn/app-infrastructure.png)
-- environment
-  ![env](./doc/fig/cfn/env.png)
-- service
-  ![svc](./doc/fig/cfn/svc.png)
-- pipeline
-  ![pipeline](./doc/fig/cfn/pipeline.png)
-
----
 
 ## PREPARING
 
-### AWSの設定
-
-[initialsettings_aws](./initialsettings_aws.md)を参照。
-
----
+TODO
 
 ## HOW TO USE
 
-- [PREPARING](#preparing)をやる。
 - ローカルでのセットアップが必用なのは git-secretsのセットアップ。
 
 ```shell
@@ -117,53 +99,5 @@ pre-commit install
 
 <details>
 <summary>今まで詰まったエラー一覧</summary><div>
-
-### Code Build のエラー
-
-以下コマンドでログが見られる。ブラウザのAWS Code Deploy
-
-```shell
-copilot svc logs --previous
-```
-
-#### nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
-
-- [ECS の仕様で非特権ユーザを使用したコンテナでは 80 番ポートが使えないっぽい](https://repost.aws/questions/QU1bCV9wT4T5iBrrP1c2ISfg/container-cannot-bind-to-port-80-running-as-non-root-user-on-ecs-fargate) --> つまり，localのdockerで80でサービスが起動できてもECSだと権限エラーになる。このため，コンテナで開放するportは8080としている(ALBに対して8080がマッピングされているためブラウザからは80でアクセスできる)。
-
-#### toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: <https://www.docker.com/increase-rate-limit>
-
-- Docker Hubに短期間にアクセスしすぎているだけなので放置でOK
-
-#### Error response from daemon: dockerfile parse error
-
-- DockerfileのRUNをヒアドキュメントで書いていたら怒られた(ローカルでは動いてたのに...)
-
-```dockerfile
-# 修正前Dockerfile
-RUN <<EOF
-mkdir -p /var/log/nginx
-chown -R nginx:nginx /var/log/nginx
-touch /run/nginx.pid
-chown -R nginx:nginx /run/nginx.pid
-EOF
-
-# 修正後
-RUN mkdir -p /var/log/nginx \
-    && chown -R nginx:nginx /var/log/nginx \
-    && touch /run/nginx.pid \
-    && chown -R nginx:nginx /run/nginx.pid
-```
-
-#### Resource handler returned message: "Error occurred during operation 'ECS Deployment Circuit Breaker was triggered'
-
-コンテナが正常に起動していない。amd64を指定したら動いた。
-
-```shell
-DOCKER_DEFAULT_PLATFORM=linux/amd64 copilot deploy
-```
-
-#### copilot app show で CFn スタックを消したはずのアプリが表示されてしまう
-
-- `copilot app show`はParameter Storeを見ているのでそこを消す。
 
 </div></details>

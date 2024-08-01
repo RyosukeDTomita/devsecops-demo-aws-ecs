@@ -12,7 +12,11 @@
 pip install pre-commit
 pre-commit sample-config > .pre-commit-config.yaml # すでに本リポジトリでは作成済み
 pre-commit install
+
+# ローカルでとりあえず動かしてみる。
+pre-commit run -a
 ```
+うまく動作してそうなら今後git commit時にツールが動作する。
 
 ### インストール時のエラー
 

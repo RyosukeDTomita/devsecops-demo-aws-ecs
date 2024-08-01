@@ -1,7 +1,3 @@
-# .env.developmentでbuild
-# docker buildx bake --set react-app.args.BUILD_ENV=development
-# .env.productionでbuild
-# docker buildx bake --set react-app.args.BUILD_ENV=production
 version: '3'
 
 services:
