@@ -7,9 +7,11 @@
   pointer-events: none;
 }
 
+/* [`@media prefers-reduced-motion`](https://developer.mozilla.org/ja/docs/Web/CSS/@media/prefers-reduced-motion)はユーザがページの動きを少なくする設定時の動作を規定しており，no-preferenceになっているので該当時にはアニメーションは動きません。 */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
+    /* animation: アニメーション名 無限ループ 1サイクルの速度(変えると回転速度が変わる) 一定速度で実行 */
   }
 }
 
@@ -28,7 +30,9 @@
   color: #61dafb;
 }
 
+/*[@keyframes](https://developer.mozilla.org/ja/docs/Web/CSS/@keyframes)はキーフレームを制御するため，fromとtoでアニメーションの始まりと終わりを定義している。*/
 @keyframes App-logo-spin {
+  /* 360度回転する*/
   from {
     transform: rotate(0deg);
   }
