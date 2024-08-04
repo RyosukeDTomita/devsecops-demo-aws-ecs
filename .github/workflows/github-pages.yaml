@@ -3,28 +3,24 @@ on:
   push:
     # branches:
     #   - master
-
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+defaults:
+  run:
+    shell: bash
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
-# env:
-#   GITHUB_CONTAINER_REGISTRY_TAG: ryosukedtomita/github-pages-test-docker
-#   IMAGE_NAME: react-app
-
 
 jobs:
   build:
     runs-on: ubuntu-latest
     environment:
       name: staging
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -51,7 +47,7 @@ jobs:
           echo ----[DEBUG]: END----
           docker buildx bake --set react-app.args.BUILD_ENV=${environment}
           docker compose up -d
-          docker compose cp react-app:/usr/share/nginx/html build
+          docker compose cp react-app-container:/usr/share/nginx/html build
 
       # Deploymentsにupload
       - name: Upload artifact
@@ -65,8 +61,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      contents: read
     timeout-minutes: 10
     needs: build
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
