@@ -19,7 +19,7 @@ jobs:
     environment:
       name: staging
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     steps:
