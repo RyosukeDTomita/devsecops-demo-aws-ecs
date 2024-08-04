@@ -12,12 +12,13 @@ RUN <<EOF
 npm install
 if [ "$BUILD_ENV" = "development" ]; then
 echo "build mode = development"
-npm run build
+npm run build-dev
 elif [ "$BUILD_ENV" = "staging" ]; then
 echo "build mode = staging"
+npm run build-stg
 elif [ "$BUILD_ENV" = "productoin" ]; then
 echo "build mode = production"
-npm run build-dev
+npm run build
 else
 echo "build mode = unknown"
 exit 1

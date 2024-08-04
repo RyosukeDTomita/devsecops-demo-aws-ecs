@@ -1,0 +1,73 @@
+# Dockerでビルドしたpackageをgithub-pagesにホストする
+on:
+  push:
+    # branches:
+    #   - master
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# env:
+#   GITHUB_CONTAINER_REGISTRY_TAG: ryosukedtomita/github-pages-test-docker
+#   IMAGE_NAME: react-app
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Update homepage in package.json
+        run: |
+          sed -i 's#"homepage": ".*"#"homepage": "${{ vars.REACT_APP_HOMEPAGE}}"#' package.json
+
+      # dockerでbuildしたパッケージをローカルにコピーする。
+      - name: Build app with docker
+        env:
+          GH_TOKEN: ${{ secrets.token }} # gh用
+        run: |
+          # environmentにあった名称でenv_fileを作成し，github actions environment variableを書き込み
+          # NOTE: env_fileはgitで管理したくないため，workflow実行時に作成している。
+          environment=staging
+          env_file=".env.${environment}"
+          touch $env_file
+          cat <<EOF >> $env_file
+          $(gh variable list --env ${environment} | awk '{print $1"="$2}')
+          EOF
+          echo ----[DEBUG]: CHECK $env_file----
+          cat $env_file
+          echo ----[DEBUG]: END----
+          docker buildx bake --set react-app.args.BUILD_ENV=${environment}
+          docker compose up -d
+          docker compose cp react-app:/usr/share/nginx/html build
+
+      # Deploymentsにupload
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: ./build
+
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

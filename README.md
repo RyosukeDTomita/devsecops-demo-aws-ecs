@@ -22,7 +22,7 @@ Sample React application for Trying to Use DevSecOps tools.
 
 > [!WARNING]
 > Since it costs money to maintain the AWS environment created with copilot-cli for the demo environment, I plan to use `GitHub-Pages` for future demos. I have archived [this branch](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs).
-> デモ環境に対して`copilot-cli`で作ったAWS環境を維持するのにお金がかかるのはもったいないので，以降は`github-pages`を使ってデモを動かそうと思います。[このブランチ](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs)をアーカイブを残してあります。
+> デモ環境に対して`copilot-cli`で作ったAWS環境を維持するのにお金がかかるのはもったいないので，以降は`github-pages`を使ってデモを動かそうと思います。[このブランチ](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs)をアーカイブとして残してあります。
 
 1. [PREPARING](#preparing)の設定を先にやる。
 2. commit時にはpre-commitとgit-secretが作動。
@@ -83,9 +83,13 @@ Sample React application for Trying to Use DevSecOps tools.
 
 - [Personal access tokens](https://github.com/settings/tokens)を作り，repository secretsに登録する。
 TODO: 一旦これくらいで作成。もっと権限しぼれるかも
-![personal acccess token例](./doc/fig/pat.png)
+![personal acccess token例](./doc/fig/pat-gh.png)
 - repository secretsに登録する。
 ![Actions secrets and variables](./doc/fig/actions-secrets-set.png)
+
+### GitHub Pagesの設定
+
+[./doc/github-pages.md](./doc/github-pages.md)
 
 ### GitHub Actions Variablesの設定
 
