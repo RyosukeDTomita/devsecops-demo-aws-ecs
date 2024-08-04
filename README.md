@@ -66,14 +66,59 @@ Sample React application for Trying to Use DevSecOps tools.
 
 ---
 
-
 ## PREPARING
 
-TODO
+### 始めにやること
+
+- Reopsitoryをforkする。
+
+### ローカルにインストールするツール
+
+- `pre-commit`
+- `git secret`
+- `gh`コマンドのインストール
+- VSCodeのExtensionsもお好みでインストール。TODO: Devcontainer化する。
+
+### GitHub Actionsでghコマンドを使うための設定
+
+- [Personal access tokens](https://github.com/settings/tokens)を作り，repository secretsに登録する。
+TODO: 一旦これくらいで作成。もっと権限しぼれるかも
+![personal acccess token例](./doc/fig/pat.png)
+- repository secretsに登録する。
+![Actions secrets and variables](./doc/fig/actions-secrets-set.png)
+
+### GitHub Actions Variablesの設定
+
+- Repositoryに[Environment](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs/settings/environments)を作る。
+![Environment例](./doc/fig/github-environment.png)
+- ローカルに3環境分の.envファイルをを作成する。
+
+```shell
+# 作成
+for environment in development staging production;
+do
+  touch .env.${environment}
+  echo $REACT_APP_MESSAGE=${environment} > .env.${environment}
+done
+```
+
+- github actions enrironment variablesに登録/更新する。
+
+```shell
+source ./update_github_actions_variables.sh
+```
+
+### GitHub Actionsで実行したスキャン結果をアップロードできるようにGitHubリポジトリの設定を変更する
+
+- GitHub Actionsがスキャン結果のファイルをアップロードできるようにGitHubリポジトリの設定を変更。詳細は[semgrepのyaml](./.github/workflows/react-semgrep.yaml)を参照。
+
+---
 
 ## HOW TO USE
 
-- ローカルでのセットアップが必用なのは git-secretsのセットアップ。
+### コミット時の検査セットアップ
+
+- git-secretsのセットアップ。
 
 ```shell
 cd devsecops-demo-aws-ecs
@@ -90,14 +135,13 @@ pip install pre-commit
 pre-commit install
 ```
 
-- VSCodeのExtensionsもお好みでインストール。
-- GitHub Actionsがスキャン結果のファイルをアップロードできるように権限をつける。詳細は[semgrepのyaml](./.github/workflows/react-semgrep.yaml)を参照。
-
 ---
 
 ## ERROR LOG
 
 <details>
-<summary>今まで詰まったエラー一覧</summary><div>
-
-</div></details>
+<summary>今まで詰まったエラー一覧</summary>
+<div>
+TODO
+</div>
+</details>

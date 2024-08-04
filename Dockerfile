@@ -10,16 +10,19 @@ COPY . .
 # npm startは.env.developmentが優先されるがnpm run buildでは.env.productoinが優先されるので注意。
 RUN <<EOF
 npm install
-if [ "$BUILD_ENV" = "production" ]; then
-echo "build mode = production"
-npm run build
-elif [ "$BUILD_ENV" = "development" ]; then
+if [ "$BUILD_ENV" = "development" ]; then
 echo "build mode = development"
+npm run build
+elif [ "$BUILD_ENV" = "staging" ]; then
+echo "build mode = staging"
+elif [ "$BUILD_ENV" = "productoin" ]; then
+echo "build mode = production"
 npm run build-dev
 else
 echo "build mode = unknown"
 exit 1
 fi
+
 rm -rf node_modules/.cache
 EOF
 

@@ -1,4 +1,3 @@
-docker_test.sh
 README.md
 .gitignore
 CODEOWNERS
@@ -10,4 +9,5 @@ LICENSE
 src/__tests__/*
 copilot/*
 Dockerfile
-docker-compose.yml
+compose.yaml
+run_local.sh

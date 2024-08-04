@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-const message: string = process.env.REACT_APP_MESSAGE || "no env";
+const message: string = process.env.REACT_APP_MESSAGE || "";
 
 function App() {
   return (

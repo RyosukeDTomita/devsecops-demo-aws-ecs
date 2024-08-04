@@ -1,3 +1,4 @@
+# node_version: 20, 22とenvironment_type: development, staging, productionの計6パターンでテストを実行
 name: run-jest
 on:
   push:
@@ -22,6 +23,9 @@ jobs:
     strategy:
       matrix:
         node_version: [20, 22]
+        environment_type: ["development", "staging", "production"]
+    environment:
+      name: ${{ matrix.environment_type }}
 
     steps:
       # checkout repository to runner
@@ -40,5 +44,29 @@ jobs:
       - name: install dependencies
         run: github-comment exec --token ${{ secrets.token }} --  npm install
 
-      - name: run npm test
-        run: github-comment exec --token ${{ secrets.token }} -- npm test -- --watchall=false
+      # 3環境まとめてテスト
+      - name: run npm run test
+        env:
+          GH_TOKEN: ${{ secrets.token }} # gh用
+        run: |
+          if [ ${{ matrix.environment_type }} = "development" ]; then
+            npm_type="dev"
+          elif [ ${{ matrix.environment_type }} = "staging" ]; then
+            npm_type="stg"
+          elif [ ${{ matrix.environment_type }} = "production" ]; then
+            npm_type="prod"
+          else
+            echo "invalid environment_type"
+            exit 1
+          fi
+          # environmentにあった名称でenv_fileを作成し，github actions environment variableを書き込み
+          # NOTE: env_fileはgitで管理したくないため，workflow実行時に作成している。
+          env_file=".env.${{ matrix.environment_type }}"
+          touch $env_file
+          cat <<EOF >> $env_file
+          $(gh variable list --env ${{ matrix.environment_type }} | awk '{print $1"="$2}')
+          EOF
+          echo ----[DEBUG]: CHECK $env_file----
+          cat .env.${{ matrix.environment_type }}
+          echo ----[DEBUG]: END----
+          github-comment exec --token ${{ secrets.token }} -- npm run test-$npm_type -- --watchall=false

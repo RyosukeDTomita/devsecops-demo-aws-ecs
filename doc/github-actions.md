@@ -30,16 +30,18 @@ actions/setup-python@コミットハッシュ
 
 ---
 
-## GitHub ActionsでSecretを扱う
+## GitHub ActionsでSecret，variablesを扱う
 
 > GUIの場合は[公式ドキュメント](https://docs.github.com/ja/actions/security-guides/using-secrets-in-github-actions)参照。
 
-### 2種類のシークレット
+### Secret
+
+#### 2種類のシークレット
 
 - Environment Secret: Environmentを作成して値を区別して使用できる。Environmentはリポジトリに対して複数作成できる。
 - Repository Secret: リポジトリで共通の値を使う。
 
-### 使用方法(CLI)
+#### 使用方法(CLI)
 
 > [GitHub CLIでリポジトリへsecretを設定する方法](https://zenn.dev/hankei6km/articles/set-secret-to-repo-with-githubcli)
 > [GitHub ActionsでEnvironment Secretを扱うサンプル](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)
@@ -64,6 +66,18 @@ jobs:
   steps:
     -run: |
       echo ${{ secrets.API_TOKEN }}
+```
+
+### variables
+- 基本はsecretと同じでenvironment variablesとrepository variablesがある。
+- secretと異なり，値を確認することができる。
+
+#### 使用例
+
+```shell
+environment=development
+gh variable set --env $environment --env-file .env.$environment
+gh variable list --env $environment
 ```
 
 ---
