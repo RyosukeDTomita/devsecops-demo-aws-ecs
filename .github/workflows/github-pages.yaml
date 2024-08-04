@@ -3,28 +3,23 @@ on:
   push:
     # branches:
     #   - master
-
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+defaults:
+  run:
+    shell: bash
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
-# env:
-#   GITHUB_CONTAINER_REGISTRY_TAG: ryosukedtomita/github-pages-test-docker
-#   IMAGE_NAME: react-app
-
 
 jobs:
   build:
     runs-on: ubuntu-latest
     environment:
       name: staging
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -65,8 +60,13 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      contents: read
+      id-token: write
     timeout-minutes: 10
     needs: build
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
