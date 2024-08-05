@@ -29,7 +29,7 @@ EOF
 
 
 # Product Image
-FROM public.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-nginx:latest-al23
+FROM public.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-nginx:latest-al23 AS deploy
 
 # Change owner to allow non-root users to start the service
 USER root
