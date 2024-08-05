@@ -1,8 +1,9 @@
 # Dockerでビルドしたpackageをgithub-pagesにホストする
 on:
   push:
-    # branches:
-    #   - master
+    branches:
+      - master
+      - feature/github-pages
   workflow_dispatch:
 
 defaults:
