@@ -24,6 +24,7 @@
 
 `git push origin master`後に[package.json](./package.json)に設定したurlにアクセスする。
 
+
 ---
 
 ## ERROR LOG
@@ -36,3 +37,15 @@
 ### テスト用ブランチからもgithub pagesにデプロイしたい
 
 - [repositoryのsettings](https://github.com/RyosukeDTomita/devsecops-demo-aws-ecs/settings/environments)からprotection ruleを変更し，ブランチ名を追加する。
+
+### github pagesの公開範囲をprivateに限定すると謎のドメインにリダイレクトされる
+
+> [GitHub Pagesサイトの可視性を変更する](https://docs.github.com/ja/enterprise-cloud@latest/pages/getting-started-with-github-pages/changing-the-visibility-of-your-github-pages-site)
+
+- privateにすることでOrganaizationsのメンバー限定でサイトを公開することができる。
+- ただし，謎のドメインにリダイレクトされる現象が発生。[Private GitHub Pages redirects to internal url](https://github.com/orgs/community/discussions/21581)
+- Reactのアプリの場合にはpackage.jsonのhomepageをリダイレクト先に合わせてやる必要がある。
+
+```json
+  "homepage": "https://effective-pancake-hogehoge",
+```

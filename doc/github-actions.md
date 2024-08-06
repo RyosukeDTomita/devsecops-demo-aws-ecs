@@ -114,6 +114,7 @@ on:
 jobs:
   frontend-jest: # ここが指定可能。
 ```
+- TODO: Actionsが通っていてもチェックがRequiredから変更されないので謎。
 
 ---
 

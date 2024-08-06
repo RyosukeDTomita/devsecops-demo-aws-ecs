@@ -143,9 +143,4 @@ pre-commit install
 
 ## ERROR LOG
 
-<details>
-<summary>今まで詰まったエラー一覧</summary>
-<div>
-TODO
-</div>
-</details>
+[error.md](./doc/error.md)を参照。
