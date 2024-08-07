@@ -5,7 +5,7 @@
 
 ## README バッチをつける
 
-### GitHub Actions の Workflowの結果をバッチで表示
+### GitHub Actions の Workflowの結果をバッチでREADME.mdにつける
 
 - リポジトリのActionsのページから**Create status badge**をクリックしてREADME.mdに貼り付ける。
 
@@ -22,10 +22,18 @@ Actionsに関係なくLICENSEファイルを配置しておけばよい
 
 ## 特定のコミットを使って actions を実行する
 
-コミットハッシュをつかうことでactionsで使うライブラリのバージョン管理ができる。
+- フルコミットハッシュをつかうことでactionsで使うライブラリのバージョンを固定できる。
+- 他の指定方法では想定外のCIが走る恐れがある。
+- [pinact](./tools_doc/pinact.md)を使うことで自動で数値のバージョンをフルコミットハッシュに変換できる。
 
 ```yaml
-actions/setup-python@コミットハッシュ
+# 良い例
+uses: actions/setup-python@コミットハッシュ
+
+# 悪い例
+uses: actions/setup-python@master # ブランチの最新が走る
+uses: actions/setup-python@v1 # 1系の最新が走る
+uses: actions/setup-python@v1.1.1 # tagの切り直しで想定外のCIが走る恐れ
 ```
 
 ---
