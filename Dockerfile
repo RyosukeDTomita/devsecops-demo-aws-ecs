@@ -5,11 +5,14 @@ WORKDIR /app
 # defaultをdevelopmentにし，引数でproductionにも切り替えられるようにする
 ARG BUILD_ENV=development
 
+# キャッシュを利用してnpm installを高速化
+COPY ./package.json ./
+RUN --mount=type=cache,target=/root/.npm npm install
+
 COPY . .
 
 # npm startは.env.developmentが優先されるがnpm run buildでは.env.productoinが優先されるので注意。
-RUN <<EOF
-npm install
+RUN <<EOF bash -ex
 if [ "$BUILD_ENV" = "development" ]; then
 echo "build mode = development"
 npm run build-dev
@@ -23,8 +26,6 @@ else
 echo "build mode = unknown"
 exit 1
 fi
-
-rm -rf node_modules/.cache
 EOF
 
 
