@@ -56,7 +56,7 @@ jobs:
           echo ----[DEBUG]: CHECK $env_file----
           cat $env_file
           echo ----[DEBUG]: END----
-          docker buildx build --build-arg BUILD_ENV=${environment} --cache-from=type=registry,ref=ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs -t react-app .
+          docker buildx build --build-arg BUILD_ENV=${environment} --cache-from=type=registry,ref=ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs,mode=max --cache-to=type=registry,ref=ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs,mode=max -t react-app .
           docker compose up -d
           docker compose cp react-app:/usr/share/nginx/html build
 
