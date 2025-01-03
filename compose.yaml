@@ -4,11 +4,9 @@ services:
       context: ./
       dockerfile: Dockerfile
       # cache_from:
-      #   - ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs
-      #   - type=inline
+      #   - ref=ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs,type=registry,mode=max
       # cache_to:
-      #   - ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs
-      #   - type=inline
+      #   - ref=ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs,type=registry,mode=max
     image: react-app:latest
     container_name: react-app-container
     ports:
