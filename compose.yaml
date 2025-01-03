@@ -3,6 +3,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+      # cache_from:
+      #   - ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs
+      #   - type=inline
+      # cache_to:
+      #   - ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs
+      #   - type=inline
     image: react-app:latest
     container_name: react-app-container
     ports:
