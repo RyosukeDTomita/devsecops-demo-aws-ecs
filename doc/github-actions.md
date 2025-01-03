@@ -77,6 +77,7 @@ jobs:
 ```
 
 ### variables
+
 - 基本はsecretと同じでenvironment variablesとrepository variablesがある。
 - secretと異なり，値を確認することができる。
 
@@ -122,6 +123,7 @@ on:
 jobs:
   frontend-jest: # ここが指定可能。
 ```
+
 - TODO: Actionsが通っていてもチェックがRequiredから変更されないので謎。
 
 ---
@@ -185,3 +187,20 @@ jobs:
 成功すると以下のような感じになる。
 
 ![matrix image](./fig/matrix_test.png)
+
+---
+
+## GitHub Container RegistryにDockerイメージをpushする
+
+- GitHub Container RegistryはGitHub Packagesの一部であり，Dockerイメージを保存するためのレジストリ。
+
+```
+# ghcr.ioに登録されたcacheを使ってimageをbuildし，cacheとimageを同時にpushする
+docker buildx build --push -t ghcr.io/ryosukedtomita/devsecops-demo-aws-ecs --cache-to type=inline --cache-from type=inline .
+```
+
+- GitHub Actions経由でpushするにはPersonal Access Tokenが必要
+  - repo
+  - write:packages
+
+[packages.yaml](../.github/workflows/packages.yaml)参照。
